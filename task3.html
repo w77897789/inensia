@@ -1,0 +1,96 @@
+<html>
+
+<head>
+	<script>
+		//EZ dfs, ES5, no "fringe" Web APIs
+		function getElementAndChildren(parent) {
+			var res = [parent.tagName.toLowerCase()];
+			var children = [].slice.call(parent.querySelectorAll("*"));
+
+			children.forEach(function(child) {
+				res.push(child.tagName.toLowerCase());
+			});
+
+			return res;
+		}
+
+		//Standart BFS, ES6
+		const getDomTreeBreadthFirst = (node) => {
+			const queue = [node];
+			const res = [];
+			
+			while (queue.length) {
+				const node = queue.shift();
+				if (node) {
+					res.push(node.tagName.toLowerCase());
+				}
+				
+				queue.push(...node.children);
+			}
+			
+			return res;
+		}
+
+		//Standart DFS, ES6
+		const getDomTreeDepthFirst = (node) => {
+			const toArray = (nodes) => [].slice.call(nodes);
+			const stack = [node];
+			const res = [];
+			
+			while (stack.length) {
+				const node = stack.pop();
+				if (node) {
+					res.push(node.tagName.toLowerCase());
+				}
+				
+				stack.push(...toArray(node.children).reverse());
+			}
+			
+			return res;
+		}
+
+		document.addEventListener('DOMContentLoaded', function(event) {
+			var parent = document.querySelector('#bottomMenu');
+
+			console.log(getElementAndChildren(parent));
+			console.log(getDomTreeBreadthFirst(parent));
+			console.log(getDomTreeDepthFirst(parent));
+		});
+	</script>
+</head>
+
+<body>
+	<h1>Sample page</h1>
+	<div id="row">
+		<div id="col1">
+			<h2>Section 1</h2>
+			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ipsum quam, condimentum ac pulvinar sed,
+				luctus sed libero. Vestibulum vestibulum sodales tellus, sit amet placerat nulla venenatis non. Nunc
+				facilisis est eget facilisis sollicitudin. Proin placerat mi eget consequat congue. </p>
+			<p>Pellentesque finibus convallis magna, in convallis sapien fermentum id. Quisque rutrum sapien at sagittis
+				sagittis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum a interdum felis.
+				Vestibulum ac nunc vel turpis posuere venenatis a eu arcu. Morbi vulputate massa sit amet dui
+				consectetur efficitur. Phasellus a lobortis enim. Mauris hendrerit consectetur orci eget scelerisque.
+			</p>
+		</div>
+		<div id="col2">
+			<h2>Section 1</h2>
+			<p><a href="#">Lipsum dolor</a> sit amet, consectetur adipiscing elit. Nunc ipsum quam, condimentum ac
+				pulvinar sed, luctus sed libero. Vestibulum vestibulum sodales tellus, sit amet placerat nulla venenatis
+				non. Nunc facilisis est eget facilisis sollicitudin. Proin placerat mi eget consequat congue. </p>
+			<p>Pellentesque finibus convallis magna, in convallis sapien fermentum id. Quisque rutrum sapien at sagittis
+				sagittis. Interdum et malesuada fames ac ante ipsum primis in faucibus. Vestibulum a interdum felis.
+				Vestibulum ac nunc vel turpis posuere venenatis a eu arcu. Morbi vulputate massa sit amet dui
+				consectetur efficitur. Phasellus a lobortis enim. Mauris hendrerit consectetur orci eget scelerisque.
+			</p>
+		</div>
+	</div>
+	<footer>
+		<ul id="bottomMenu">
+			<li><a href="#">Home</a></li>
+			<li><a href="#">About</a></li>
+		</ul>
+	</footer>
+</body>
+
+</html>
